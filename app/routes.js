@@ -1,4 +1,5 @@
 // app/routes.js
+var db            = require('./models/');
 module.exports = function(app, passport) {
 
     // =====================================
@@ -25,6 +26,7 @@ module.exports = function(app, passport) {
         failureFlash : true // allow flash messages
     }));
 
+
     // =====================================
     // SIGNUP ==============================
     // =====================================
@@ -42,6 +44,7 @@ module.exports = function(app, passport) {
         failureFlash : true // allow flash messages
     }));
 
+
     // =====================================
     // PROFILE SECTION =========================
     // =====================================
@@ -49,6 +52,35 @@ module.exports = function(app, passport) {
     // we will use route middleware to verify this (the isLoggedIn function)
     app.get('/profile', isLoggedIn, function(req, res) {
         res.render('profile.ejs', {
+            user : req.user // get the user out of session and pass to template
+        });
+    });
+
+
+    // process the updateProfile form
+    app.post('/updateProfile', function(req, res) {
+        console.log(req.body);
+        db.User.update({"_id":req.user._id},
+            {$set:
+                {"profile.firstName":req.body.firstName,
+                "profile.lastName":req.body.lastName,
+                "profile.urlProfilePic":req.body.urlProfilePic,
+                "profile.userName":req.body.userName}})
+            .then(function(err){
+            if (err){
+                console.log(err)
+            }
+        });
+        res.redirect("/profile");
+    });
+
+
+
+    // =====================================
+    // GALLERY ==============================
+    // =====================================
+    app.get('/gallery', isLoggedIn, function(req, res) {
+        res.render('gallery.ejs', {
             user : req.user // get the user out of session and pass to template
         });
     });
@@ -61,6 +93,8 @@ module.exports = function(app, passport) {
         res.redirect('/');
     });
 };
+
+
 
 // route middleware to make sure
 function isLoggedIn(req, res, next) {
