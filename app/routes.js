@@ -32,7 +32,9 @@ module.exports = function(app, passport) {
         db.User.update({"_id":req.user._id},
             {$set:
                 {"profile.firstName":req.body.firstName,
-                "profile.lastName":req.body.lastName}})
+                "profile.lastName":req.body.lastName,
+                "profile.userName":req.body.userName,
+                "profile.urlProfilePic":req.body.urlProfilePic}})
             .then(function(err){
             if (err){
                 console.log(err)

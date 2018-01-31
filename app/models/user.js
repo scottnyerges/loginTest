@@ -10,9 +10,11 @@ var userSchema = mongoose.Schema({
         password     : {type: String, required: true}
     },
     profile : {
-        firstName   : {type: String, default: 'Art', required: false},
-        lastName    : {type: String, default: 'Lover', required: false}
-    }
+        firstName   : {type: String, default: 'Your', required: false},
+        lastName    : {type: String, default: 'Name', required: false},
+        userName    : {type: String, default: 'No-Username-Selected', required: false},
+        urlProfilePic: {type: String, default: 'https://image.freepik.com/free-icon/profile-user-with-question-mark_318-41366.jpg', required: false}
+        }
 // schema below saved for future use
     // ,
     // facebook         : {
