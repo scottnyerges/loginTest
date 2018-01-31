@@ -64,7 +64,8 @@ module.exports = function(app, passport) {
             {$set:
                 {"profile.firstName":req.body.firstName,
                 "profile.lastName":req.body.lastName,
-                "profile.urlProfilePic":req.body.urlProfilePic}})
+                "profile.urlProfilePic":req.body.urlProfilePic,
+                "profile.userName":req.body.userName}})
             .then(function(err){
             if (err){
                 console.log(err)
