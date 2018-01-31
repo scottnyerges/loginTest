@@ -26,23 +26,6 @@ module.exports = function(app, passport) {
         failureFlash : true // allow flash messages
     }));
 
-    // process the updateUser form
-    app.post('/updateProfile', function(req, res) {
-        console.log(req.body);
-        db.User.update({"_id":req.user._id},
-            {$set:
-                {"profile.firstName":req.body.firstName,
-                "profile.lastName":req.body.lastName,
-                "profile.userName":req.body.userName,
-                "profile.urlProfilePic":req.body.urlProfilePic}})
-            .then(function(err){
-            if (err){
-                console.log(err)
-            }
-        });
-        res.redirect("/profile");
-    });
-
 
     // =====================================
     // SIGNUP ==============================
@@ -73,6 +56,34 @@ module.exports = function(app, passport) {
         });
     });
 
+
+    // process the updateProfile form
+    app.post('/updateProfile', function(req, res) {
+        console.log(req.body);
+        db.User.update({"_id":req.user._id},
+            {$set:
+                {"profile.firstName":req.body.firstName,
+                "profile.lastName":req.body.lastName,
+                "profile.urlProfilePic":req.body.urlProfilePic}})
+            .then(function(err){
+            if (err){
+                console.log(err)
+            }
+        });
+        res.redirect("/profile");
+    });
+
+
+
+    // =====================================
+    // GALLERY ==============================
+    // =====================================
+    app.get('/gallery', isLoggedIn, function(req, res) {
+        res.render('gallery.ejs', {
+            user : req.user // get the user out of session and pass to template
+        });
+    });
+
     // =====================================
     // LOGOUT ==============================
     // =====================================
@@ -81,6 +92,8 @@ module.exports = function(app, passport) {
         res.redirect('/');
     });
 };
+
+
 
 // route middleware to make sure
 function isLoggedIn(req, res, next) {
