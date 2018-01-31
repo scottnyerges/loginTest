@@ -22,12 +22,30 @@
 		<!-- LOCAL INFORMATION -->
 		<div class="col-sm-6">
 			<div class="well">
-				<h3><span class="fa fa-user"></span> Local</h3>
+				<h3><span class="fa"></span>User Profile</h3>
+					<form action="/updateUser" method="post">
+					<p>
+						<strong>unique user id</strong>: <%= user._id %>
+						<br>
+						<strong>First Name</strong>: <input type="text" value=<%=user.profile.firstName%> name="firstName">
+						<br>
+						<strong>Last Name</strong>: <input type="text" value=<%=user.profile.lastName%> name="lastName">
+					</p>
+					<button type="submit">Update Profile</button>
+					</form>
+
+			</div>
+		</div>
+
+		<!-- LOCAL INFORMATION -->
+		<div class="col-sm-6">
+			<div class="well">
+				<h3><span class="fa fa-user"></span> Local User Info</h3>
 
 					<p>
 						<strong>id</strong>: <%= user._id %><br>
 						<strong>email</strong>: <%= user.local.email %><br>
-						<strong>password</strong>: <%= user.local.password %>
+						<strong>password hash</strong>: <%= user.local.password %>
 					</p>
 
 			</div>

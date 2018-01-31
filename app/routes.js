@@ -1,4 +1,5 @@
 // app/routes.js
+var db            = require('./models/');
 module.exports = function(app, passport) {
 
     // =====================================
@@ -25,6 +26,22 @@ module.exports = function(app, passport) {
         failureFlash : true // allow flash messages
     }));
 
+    // process the updateUser form
+    app.post('/updateProfile', function(req, res) {
+        console.log(req.body);
+        db.User.update({"_id":req.user._id},
+            {$set:
+                {"profile.firstName":req.body.firstName,
+                "profile.lastName":req.body.lastName}})
+            .then(function(err){
+            if (err){
+                console.log(err)
+            }
+        });
+        res.redirect("/profile");
+    });
+
+
     // =====================================
     // SIGNUP ==============================
     // =====================================
@@ -41,6 +58,7 @@ module.exports = function(app, passport) {
         failureRedirect : '/signup', // redirect back to the signup page if there is an error
         failureFlash : true // allow flash messages
     }));
+
 
     // =====================================
     // PROFILE SECTION =========================
